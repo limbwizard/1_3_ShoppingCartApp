@@ -1,0 +1,40 @@
+// Assuming you have _colors.scss and _fonts.scss
+@import 'colors';
+@import 'fonts';
+
+.navbar {
+  background-color: $color-primary; // Primary color for the navbar background
+  padding: 1rem 0;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar-brand {
+    color: $color-white;
+    font-size: $font-size-lg; // Large font size for brand name
+    text-decoration: none;
+    font-weight: $font-weight-bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .navbar-nav {
+    display: flex;
+
+    .nav-link {
+      color: $color-white;
+      text-decoration: none;
+      margin-left: 1rem;
+      font-size: $font-size-base; // Base font size for nav items
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

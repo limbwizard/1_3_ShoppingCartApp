@@ -1,0 +1,41 @@
+@import 'colors';
+@import 'fonts';
+
+.cart {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+
+  h2 {
+    margin-bottom: 1.5rem;
+    color: $color-gray-dark; // Updated to use variable
+    font-size: $font-size-h2; // Updated to use variable
+  }
+
+  .cart-summary {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 2px dashed $color-gray-light; // Updated to use variable
+
+    h3 {
+      font-size: $font-size-h3; // Updated to use variable
+      color: $color-gray-dark; // Updated to use variable
+      margin-bottom: 1rem;
+    }
+
+    .checkout-button {
+      background-color: $color-primary; // Updated to use variable
+      color: $color-white; // Updated to use variable
+      padding: 0.75rem 1.5rem;
+      font-size: $font-size-base; // Updated to use variable
+      border: none;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $color-primary-dark; // Updated to use variable
+      }
+    }
+  }
+}

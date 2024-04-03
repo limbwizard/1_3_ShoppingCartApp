@@ -1,0 +1,31 @@
+// src/scss/_colors.scss
+
+// Primary Palette
+$color-primary: #007bff; // Bootstrap primary blue
+$color-primary-dark: #0056b3; // Darker shade for hover states or accents
+$color-primary-light: #b3d7ff; // Lighter shade for backgrounds
+
+// Secondary Palette
+$color-secondary: #6c757d; // Bootstrap secondary gray
+$color-secondary-dark: #545b62; // Darker shade
+$color-secondary-light: #d6d8db; // Lighter shade
+
+// Utility Colors
+$color-success: #28a745;
+$color-info: #17a2b8;
+$color-warning: #ffc107;
+$color-danger: #dc3545;
+$color-light: #f8f9fa;
+$color-dark: #343a40;
+
+// Neutral Palette
+$color-black: #000;
+$color-white: #fff;
+$color-gray-dark: #343a40;
+$color-gray: #6c757d;
+$color-gray-light: #f8f9fa;
+
+// Background Colors
+$background-color-body: $color-white;
+$background-color-header: $color-primary;
+$background-color-footer: $color-dark;

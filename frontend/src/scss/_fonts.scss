@@ -1,0 +1,47 @@
+// src/scss/_fonts.scss
+
+// Font Import (Example using Google Fonts)
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+// Font Family
+$font-family-base: 'Roboto', sans-serif;
+
+// Font Weights
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+// Base Font Size
+$font-size-base: 1rem; // 16px
+$font-size-sm: 0.875rem; // 14px
+$font-size-lg: 1.25rem; // 20px
+
+// Heading Font Sizes
+$font-size-h1: 2.5rem; // 40px
+$font-size-h2: 2rem; // 32px
+$font-size-h3: 1.75rem; // 28px
+$font-size-h4: 1.5rem; // 24px
+$font-size-h5: 1.25rem; // 20px
+$font-size-h6: 1rem; // 16px
+
+// Mixins
+@mixin heading-style {
+  font-family: $font-family-base;
+  font-weight: $font-weight-bold;
+  margin-bottom: 0.5rem;
+}
+
+// Example Usage
+h1 {
+  @include heading-style;
+  font-size: $font-size-h1;
+}
+
+// Body Text
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  color: $color-gray-dark;
+}

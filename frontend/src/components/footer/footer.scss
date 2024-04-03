@@ -1,0 +1,51 @@
+@import 'colors';
+@import 'fonts';
+
+.footer {
+  background-color: $color-dark; // Assuming this is defined in _colors.scss
+  color: $color-white; // Assuming this is defined in _colors.scss
+  padding: 2rem 0;
+
+  .container {
+    @include container; // Assuming you have a container mixin for consistent padding/margin
+  }
+
+  .footer-section {
+    margin-bottom: 1.5rem;
+
+    h5 {
+      margin-bottom: 0.75rem;
+      color: $color-white;
+    }
+
+    p,
+    address,
+    a {
+      font-size: $font-size-sm; // Assuming this is defined in _fonts.scss
+      color: $color-white;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .footer-bottom {
+    text-align: center;
+    margin-top: 2rem;
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+}
