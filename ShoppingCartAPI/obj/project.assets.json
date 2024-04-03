@@ -434,11 +434,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\isaac\\Documents\\1_3_INTEX2\\ShoppingCartApp\\ShoppingCartAPI\\ShoppingCartAPI.csproj",
+      "projectUniqueName": "C:\\Users\\isaac\\Documents\\1_3_ShoppingCartApp\\ShoppingCartAPI\\ShoppingCartAPI.csproj",
       "projectName": "ShoppingCartAPI",
-      "projectPath": "C:\\Users\\isaac\\Documents\\1_3_INTEX2\\ShoppingCartApp\\ShoppingCartAPI\\ShoppingCartAPI.csproj",
+      "projectPath": "C:\\Users\\isaac\\Documents\\1_3_ShoppingCartApp\\ShoppingCartAPI\\ShoppingCartAPI.csproj",
       "packagesPath": "C:\\Users\\isaac\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\isaac\\Documents\\1_3_INTEX2\\ShoppingCartApp\\ShoppingCartAPI\\obj\\",
+      "outputPath": "C:\\Users\\isaac\\Documents\\1_3_ShoppingCartApp\\ShoppingCartAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
