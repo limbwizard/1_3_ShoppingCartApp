@@ -1,6 +1,8 @@
 // authService.ts
 import { UserRole } from '../types/roles';
 
+export const ADMIN_USERS = ['isaacdalelimb@gmail.com'];
+
 interface User {
   id: string;
   email: string;
