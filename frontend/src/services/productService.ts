@@ -1,22 +1,20 @@
+// src/services/productService.ts
 import axios from 'axios';
-import { CartItem } from '../types/cartTypes'; // Adjust import path as needed
+import { Product } from '../types/productTypes';
 
-// Assuming the CartItem interface includes properties you'd expect from a product
-// Adjust the BASE_URL to match your API's endpoint
 const BASE_URL = 'https://your-api-endpoint.com/api/products';
 
-const fetchProductsFromAPI = async (): Promise<CartItem[]> => {
+const fetchProductsFromAPI = async (): Promise<Product[]> => {
   try {
     const response = await axios.get(`${BASE_URL}`);
-    return response.data; // Adjust this if your API's response structure is different
+    return response.data;
   } catch (error) {
-    // Handle or throw the error based on your error handling policy
     throw new Error('Fetching products failed');
   }
 };
 
 // Placeholder for adding a new product
-const addProductToAPI = async (product: CartItem): Promise<CartItem> => {
+const addProductToAPI = async (product: Product): Promise<Product> => {
   try {
     const response = await axios.post(`${BASE_URL}`, product);
     return response.data;
@@ -26,7 +24,7 @@ const addProductToAPI = async (product: CartItem): Promise<CartItem> => {
 };
 
 // Placeholder for updating an existing product
-const updateProductInAPI = async (product: CartItem): Promise<CartItem> => {
+const updateProductInAPI = async (product: Product): Promise<Product> => {
   try {
     const response = await axios.put(`${BASE_URL}/${product.id}`, product);
     return response.data;

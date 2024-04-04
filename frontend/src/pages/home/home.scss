@@ -1,28 +1,98 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+// Define custom darker primary color
+$primary-darker: darken($primary, 15%); // Darkens the primary color by 15%
+
+// Utilize Bootstrap variables and mixins for consistency and theming
+:root {
+  --product-item-bg: #f8f9fa; // Light background for product items, for easy theme changes
+  --product-item-hover-bg: #e9ecef; // Slightly darker on hover
+}
+
+// Improved global styles for the products list container
 .products-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; // Adjust based on your design
+  gap: 2rem; // Utilize rem for responsive spacing
   justify-content: center;
+  margin-top: 3rem; // Increased top margin for more spacing
 }
 
+// Enhanced individual product item styles
 .product-item {
-  border: 1px solid #ddd;
-  padding: 10px;
-  width: 200px; // Adjust based on your design
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--product-item-bg); // Use CSS variable for background
+  border: 1px solid #dee2e6; // Softer border color from Bootstrap's gray palette
+  border-radius: 0.5rem; // Bootstrap's border-radius utility value
+  padding: 1rem;
+  width: 18rem; // Responsive width
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px); // Lift effect on hover
+    background-color: var(
+      --product-item-hover-bg
+    ); // Change background on hover
+    box-shadow: $box-shadow-sm; // Bootstrap variable for consistent shadow effects
+  }
+
+  img {
+    width: 100%;
+    border-radius: 0.25rem; // Consistent with Bootstrap's border-radius
+  }
 
   h3 {
-    margin-top: 0;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 500; // Semi-bold for better readability
+    color: $primary; // Use Bootstrap primary color for titles
+  }
+
+  p {
+    font-size: 0.875rem; // Consistent font sizing with Bootstrap
+    color: $gray-600; // Bootstrap color variable for descriptions
+    margin-bottom: 1rem; // Add more space before the action button
   }
 
   button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
+    @include button-variant(
+      $primary,
+      $primary-darker
+    ); // Utilize Bootstrap mixin for button styling
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+    margin-top: auto; // Ensure it stays at the bottom
+    transition: background-color 0.15s ease-in-out;
 
     &:hover {
-      background-color: #0056b3;
+      @include button-variant(
+        $primary-darker,
+        $primary
+      ); // Darken button on hover
+    }
+  }
+}
+
+// Enhancements to the .container styling for the home page
+.home-page .container {
+  @include media-breakpoint-up(md) {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  &.text-center {
+    background-color: $light;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: $box-shadow; // Use Bootstrap's box-shadow variable for consistency
+
+    h1 {
+      color: $dark;
+      margin-bottom: 2rem; // More spacing after the heading
     }
   }
 }

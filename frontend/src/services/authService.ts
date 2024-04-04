@@ -1,68 +1,77 @@
-// src/services/authService.ts
-import axios from 'axios';
-
-const API_URL = 'https://your-api-url.com/auth';
-
-interface SignInResponse {
-  user: any; // Replace `any` with your user type
-  token: string;
-}
+// authService.ts
+import { UserRole } from '../types/roles';
 
 interface User {
-  // Define the user object structure based on your backend
   id: string;
-  username: string;
-  // Add other user properties
+  email: string;
+  name: string;
+  avatar: string;
+  role: UserRole;
 }
 
-// Function to sign in
-const signIn = async (username: string, password: string): Promise<User> => {
-  const response = await axios.post<SignInResponse>(`${API_URL}/signin`, {
-    username,
-    password,
-  });
-  const { user, token } = response.data;
+export const oauthSignIn = () => {
+  const oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+  const params = {
+    client_id:
+      '851983889381-ba4jagcfvse1hnd4q1pq2hnio82siae3.apps.googleusercontent.com',
+    redirect_uri: 'http://localhost:3000',
+    response_type: 'token',
+    scope: 'https://www.googleapis.com/auth/drive.metadata.readonly',
+    include_granted_scopes: 'true',
+    state: 'pass-through value',
+  };
 
-  // Save the token in local storage or cookies as per your preference
-  localStorage.setItem('authToken', token);
-
-  return user;
+  const urlParams = new URLSearchParams(params);
+  const authUrl = `${oauth2Endpoint}?${urlParams.toString()}`;
+  window.location.href = authUrl;
 };
 
-// Function to sign out
-const signOut = (): void => {
-  // Remove the token from local storage or cookies
-  localStorage.removeItem('authToken');
-};
+export const loginWithGoogle = async (tokenResponse: any): Promise<User> => {
+  if (tokenResponse.access_token) {
+    try {
+      // Use the access token to retrieve user information from Google's API
+      const response = await fetch(
+        'https://www.googleapis.com/oauth2/v3/userinfo',
+        {
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        },
+      );
 
-// Function to check authentication status
-const checkAuth = async (): Promise<boolean> => {
-  const token = localStorage.getItem('authToken');
-  if (!token) return false;
+      if (response.ok) {
+        const userData = await response.json();
 
-  try {
-    // Optionally, verify the token's validity with your backend
-    await axios.get(`${API_URL}/verifyToken`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return true;
-  } catch (error) {
-    console.error('Token verification failed', error);
-    return false;
+        // Map the user data from Google's response to the User interface
+        const user: User = {
+          id: userData.sub,
+          email: userData.email,
+          name: userData.name,
+          avatar: userData.picture,
+          role: UserRole.CUSTOMER, // Assign the appropriate role based on your logic
+        };
+
+        return user;
+      } else {
+        throw new Error('Failed to retrieve user information from Google');
+      }
+    } catch (error) {
+      console.error('Error retrieving user information:', error);
+      throw new Error('Failed to retrieve user information from Google');
+    }
+  } else {
+    throw new Error('Login failed: Access token not found');
   }
 };
 
-// Function to get the current user
-const getCurrentUser = async (): Promise<User> => {
-  const token = localStorage.getItem('authToken');
-  const response = await axios.get<User>(`${API_URL}/currentUser`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
+export const signOut = async (): Promise<void> => {
+  try {
+    // Perform any necessary sign-out logic, such as clearing user data from local storage or revoking tokens
+    localStorage.removeItem('user');
+    // You can also make an API call to your backend to invalidate the user session if needed
+    // await axios.post('/api/logout');
+  } catch (error) {
+    console.error('Error signing out:', error);
+    throw new Error('Failed to sign out');
+  }
 };
-
-export { signIn, signOut, checkAuth, getCurrentUser };

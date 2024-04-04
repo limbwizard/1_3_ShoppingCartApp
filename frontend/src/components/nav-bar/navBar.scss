@@ -1,10 +1,9 @@
-// Assuming you have _colors.scss and _fonts.scss
-@import 'colors';
-@import 'fonts';
+@import '../../scss/_colors';
 
 .navbar {
-  background-color: $color-primary; // Primary color for the navbar background
+  background-color: $background-color-header;
   padding: 1rem 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); // Adds subtle depth
 
   .container {
     display: flex;
@@ -14,12 +13,13 @@
 
   .navbar-brand {
     color: $color-white;
-    font-size: $font-size-lg; // Large font size for brand name
+    font-size: 1.25rem;
     text-decoration: none;
-    font-weight: $font-weight-bold;
+    font-weight: bold;
+    transition: color 0.3s ease; // Add a smooth hover transition
 
     &:hover {
-      text-decoration: underline;
+      color: $color-primary-light;
     }
   }
 
@@ -30,10 +30,69 @@
       color: $color-white;
       text-decoration: none;
       margin-left: 1rem;
-      font-size: $font-size-base; // Base font size for nav items
+      font-size: 1rem;
+      transition: color 0.3s ease; // Consistent transition
 
       &:hover {
-        text-decoration: underline;
+        color: $color-primary-light;
+      }
+
+      &.active {
+        // Style for active links
+        color: $color-primary;
+        font-weight: 600;
+      }
+    }
+  }
+
+  // Responsive Menu Styles
+  .navbar-toggler {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    display: none; // Hide by default
+
+    .navbar-toggler-icon {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: $color-white;
+      margin: 4px 0;
+      transition: all 0.3s ease;
+    }
+  }
+
+  // Styles when menu is open
+  &.open {
+    .navbar-nav {
+      // ... styles to display the menu
+    }
+  }
+}
+
+// Media Query for Smaller Screens
+@media screen and (max-width: 768px) {
+  .navbar {
+    .navbar-toggler {
+      display: block;
+    }
+
+    .navbar-nav {
+      display: none; // Hide on smaller screens initially
+    }
+
+    &.open {
+      // When the menu is open
+      .navbar-nav {
+        display: block;
+        flex-direction: column;
+        align-items: center;
+        background-color: $background-color-header;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        padding: 1rem;
       }
     }
   }

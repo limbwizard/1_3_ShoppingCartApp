@@ -1,27 +1,29 @@
-@import 'colors';
-@import 'fonts';
+// Import color and font variables
+@import '../../scss/_colors';
+@import '../../scss/_fonts';
+@import '../../scss/_mixins';
 
 .footer {
-  background-color: $color-dark; // Assuming this is defined in _colors.scss
-  color: $color-white; // Assuming this is defined in _colors.scss
+  background-color: $background-color-footer;
+  color: $color-white;
   padding: 2rem 0;
 
   .container {
-    @include container; // Assuming you have a container mixin for consistent padding/margin
+    @include container;
   }
 
   .footer-section {
     margin-bottom: 1.5rem;
 
     h5 {
-      margin-bottom: 0.75rem;
+      @include heading-style;
       color: $color-white;
     }
 
     p,
     address,
     a {
-      font-size: $font-size-sm; // Assuming this is defined in _fonts.scss
+      font-size: $font-size-sm;
       color: $color-white;
       text-decoration: none;
 

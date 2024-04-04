@@ -1,0 +1,8 @@
+// _mixins.scss
+
+@mixin container {
+  width: 100%;
+  max-width: 1200px; // Adjust as needed
+  margin: 0 auto;
+  padding: 0 15px;
+}

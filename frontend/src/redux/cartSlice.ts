@@ -11,41 +11,63 @@ const initialState: CartState = {
   error: null,
 };
 
-// Async actions corrected
-export const fetchCartItems = createAsyncThunk<CartItem[]>(
-  'cart/fetchItems',
-  async () => {
-    // Directly return the result from the service without `.data`
+export const fetchCartItems = createAsyncThunk<
+  CartItem[],
+  void,
+  { rejectValue: string }
+>('cart/fetchItems', async (_, { rejectWithValue }) => {
+  try {
     const items = await cartService.getCartItems();
-    return items; // items is directly CartItem[], no need for .data
-  },
-);
+    return items;
+  } catch (error) {
+    return rejectWithValue('Failed to fetch cart items');
+  }
+});
 
-export const addItem = createAsyncThunk<CartItem, CartItem>(
-  'cart/addItem',
-  async (item) => {
-    // Directly return the result from the service without `.data`
+export const addItem = createAsyncThunk<
+  CartItem,
+  CartItem,
+  { rejectValue: string }
+>('cart/addItem', async (item, { rejectWithValue }) => {
+  try {
     const newItem = await cartService.addItemToCart(item);
-    return newItem; // newItem is directly CartItem, no need for .data
-  },
-);
+    return newItem;
+  } catch (error) {
+    return rejectWithValue('Failed to add item to cart');
+  }
+});
 
-export const removeItem = createAsyncThunk<string, string>(
-  'cart/removeItem',
-  async (itemId) => {
-    // Directly return the itemId without assigning or using `response`
+export const removeItem = createAsyncThunk<
+  string,
+  string,
+  { rejectValue: string }
+>('cart/removeItem', async (itemId, { rejectWithValue }) => {
+  try {
     await cartService.removeItemFromCart(itemId);
     return itemId;
-  },
-);
+  } catch (error) {
+    return rejectWithValue('Failed to remove item from cart');
+  }
+});
 
 export const updateItemQuantity = createAsyncThunk<
   CartItem,
-  { itemId: string; quantity: number }
->('cart/updateItemQuantity', async ({ itemId, quantity }) => {
-  const updatedItem = await cartService.updateItemQuantity(itemId, quantity);
-  return updatedItem; // updatedItem is directly CartItem, no need for .data
-});
+  { itemId: string; quantity: number },
+  { rejectValue: string }
+>(
+  'cart/updateItemQuantity',
+  async ({ itemId, quantity }, { rejectWithValue }) => {
+    try {
+      const updatedItem = await cartService.updateItemQuantity(
+        itemId,
+        quantity,
+      );
+      return updatedItem;
+    } catch (error) {
+      return rejectWithValue('Failed to update item quantity');
+    }
+  },
+);
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -66,22 +88,19 @@ const cartSlice = createSlice({
       })
       .addCase(fetchCartItems.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message || null;
+        state.error = action.payload || 'Failed to fetch cart items';
       })
-      .addCase(addItem.fulfilled, (state, action) => {
-        state.items.push(action.payload);
-        state.totalQuantity += action.payload.quantity;
+      .addCase(addItem.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload || 'Failed to add item to cart';
       })
-      .addCase(removeItem.fulfilled, (state, action) => {
-        state.items = state.items.filter((item) => item.id !== action.payload);
+      .addCase(removeItem.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload || 'Failed to remove item from cart';
       })
-      .addCase(updateItemQuantity.fulfilled, (state, action) => {
-        const index = state.items.findIndex(
-          (item) => item.id === action.payload.id,
-        );
-        if (index !== -1) {
-          state.items[index].quantity = action.payload.quantity;
-        }
+      .addCase(updateItemQuantity.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload || 'Failed to update item quantity';
       });
   },
 });

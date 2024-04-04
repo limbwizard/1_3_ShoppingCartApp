@@ -1,8 +1,16 @@
 // CartItem.tsx
 import React from 'react';
-import './cartItem.scss'; // Assuming CSS/SCSS module structure
+import { CartItem as CartItemType } from '../../types/cartTypes';
+import './CartItem.scss';
 
-const CartItem = ({
+interface CartItemProps {
+  item: CartItemType;
+  onIncreaseQuantity: () => void;
+  onDecreaseQuantity: () => void;
+  onRemoveItem: () => void;
+}
+
+const CartItem: React.FC<CartItemProps> = ({
   item,
   onIncreaseQuantity,
   onDecreaseQuantity,
@@ -15,7 +23,9 @@ const CartItem = ({
         <h4>{item.name}</h4>
         <p>${item.price.toFixed(2)}</p>
         <div className="quantity-controls">
-          <button onClick={onDecreaseQuantity}>-</button>
+          <button onClick={onDecreaseQuantity} disabled={item.quantity === 1}>
+            -
+          </button>
           <span>{item.quantity}</span>
           <button onClick={onIncreaseQuantity}>+</button>
         </div>

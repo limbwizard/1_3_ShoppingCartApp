@@ -1,18 +1,30 @@
-// src/redux/productsSlice.js
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchProductsFromAPI } from '../services/productService'; // Assume this service fetches products
+// src/redux/productSlice.ts
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { fetchProductsFromAPI } from '../services/productService';
+import { Product } from '../types/productTypes';
 
-export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
-  async () => {
-    const response = await fetchProductsFromAPI();
-    return response.data; // Adjust based on your actual API response structure
-  },
-);
+interface ProductsState {
+  products: Product[];
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error: string | null;
+}
 
-const initialState = {
+export const fetchProducts = createAsyncThunk<
+  Product[],
+  void,
+  { rejectValue: string }
+>('products/fetchProducts', async (_, { rejectWithValue }) => {
+  try {
+    const products = await fetchProductsFromAPI();
+    return products;
+  } catch (error) {
+    return rejectWithValue('Failed to fetch products');
+  }
+});
+
+const initialState: ProductsState = {
   products: [],
-  status: 'idle', // 'idle', 'loading', 'succeeded', 'failed'
+  status: 'idle',
   error: null,
 };
 
@@ -25,13 +37,16 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchProducts.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.products = action.payload;
-      })
+      .addCase(
+        fetchProducts.fulfilled,
+        (state, action: PayloadAction<Product[]>) => {
+          state.status = 'succeeded';
+          state.products = action.payload;
+        },
+      )
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message;
+        state.error = action.payload || 'Failed to fetch products';
       });
   },
 });
